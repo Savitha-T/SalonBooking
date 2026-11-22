@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMIÈRE | Luxury Unisex Salon & Spa - Bengaluru</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Chart.js for Admin Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Toast Container for Notifications -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- =========================================================================
+       CUSTOMER WEBSITE SECTION
+       ========================================================================= -->
+  <div id="customerApp">
+    <!-- Header & Navigation -->
+    <header class="header">
+      <div class="container nav-container">
+        <!-- Logo -->
+        <a href="#home" class="brand-logo" onclick="navigateTo('home')">
+          <div class="brand-icon">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div class="brand-text">
+            <h1 class="font-serif">LUMIÈRE</h1>
+            <span id="headerTagline">Luxury Salon &amp; Spa</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <ul class="nav-menu" id="navMenu">
+          <li><a class="nav-link active" data-page="home" onclick="navigateTo('home')">Home</a></li>
+          <li><a class="nav-link" data-page="services" onclick="navigateTo('services')">Services</a></li>
+          <li><a class="nav-link" data-page="booking" onclick="navigateTo('booking')">Booking</a></li>
+          <li><a class="nav-link" data-page="about" onclick="navigateTo('about')">About Shop</a></li>
+          <li><a class="nav-link" data-page="contact" onclick="navigateTo('contact')">Contact</a></li>
+          <li><a class="nav-link" data-page="my-appointments" onclick="navigateTo('my-appointments')">My Appointments</a></li>
+          <li><a class="nav-link" data-page="cancel" onclick="navigateTo('cancel')">Cancel Booking</a></li>
+        </ul>
+
+        <!-- User Actions / Profile -->
+        <div class="nav-actions">
+          <div id="authNavGuest" style="display: flex; gap: 0.8rem; align-items: center;">
+            <button class="btn btn-outline-gold btn-sm" onclick="openAuthModal('login')">
+              <i class="fa-regular fa-user"></i> Sign In
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="navigateTo('booking')">
+              <i class="fa-regular fa-calendar-check"></i> Book Now
+            </button>
+          </div>
+
+          <div id="authNavUser" style="display: none; align-items: center; gap: 0.8rem;">
+            <div class="user-badge" onclick="toggleUserDropdown()">
+              <div class="user-avatar" id="navUserAvatar">U</div>
+              <span id="navUserName" style="font-size: 0.88rem; font-weight: 600;">User</span>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem; color: var(--gold-primary);"></i>
+            </div>
+            <!-- User Dropdown Menu -->
+            <div id="userDropdown" style="display: none; position: absolute; top: 70px; right: 2rem; background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: var(--radius-md); padding: 0.8rem; box-shadow: var(--shadow-lg); width: 200px; z-index: 100;">
+              <div style="padding: 0.4rem 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 0.5rem;">
+                <p id="dropdownUserRole" style="font-size: 0.75rem; text-transform: uppercase; color: var(--gold-light); font-weight: 700; margin: 0;"></p>
+                <p id="dropdownUserEmail" style="font-size: 0.8rem; color: var(--text-muted); margin: 0; word-break: break-all;"></p>
+              </div>
+              <a href="#my-appointments" onclick="navigateTo('my-appointments'); toggleUserDropdown();" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: var(--text-main); font-size: 0.88rem; border-radius: var(--radius-sm);"><i class="fa-regular fa-calendar"></i> My Appointments</a>
+              <div id="adminPortalLinkContainer" style="display: none;">
+                <a href="#admin" onclick="openAdminPanel(); toggleUserDropdown();" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: var(--gold-light); font-size: 0.88rem; border-radius: var(--radius-sm); font-weight: 600;"><i class="fa-solid fa-gauge-high"></i> Admin Portal</a>
+              </div>
+              <a href="javascript:void(0)" onclick="handleLogout()" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: var(--danger); font-size: 0.88rem; border-radius: var(--radius-sm); margin-top: 0.4rem;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</a>
+            </div>
+          </div>
+
+          <a href="#admin" onclick="openAdminPanel()" class="btn btn-secondary btn-sm" title="Salon Administrator Portal" style="border-color: rgba(212,175,55,0.3);">
+            <i class="fa-solid fa-lock text-gold"></i> <span class="hide-mobile">Admin</span>
+          </a>
+
+          <!-- Mobile Hamburger -->
+          <button class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINERS (PAGE SECTIONS) -->
+
+    <!-- 1. HOME PAGE VIEW -->
+    <main id="page-home" class="page-view">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-tag">
+              <i class="fa-regular fa-gem"></i> Premium Haute Coiffure &amp; Spa Sanctuary
+            </div>
+            <h1 class="hero-title font-serif">
+              Elevate Your <span class="gold-gradient-text">Natural Radiance</span>
+            </h1>
+            <p class="hero-subtitle">
+              Indulge in personalized luxury haircare, European balayage, holistic skincare rituals, and bespoke wellness treatments designed exclusively for you.
+            </p>
+            <div class="hero-cta">
+              <button class="btn btn-primary btn-lg" onclick="navigateTo('booking')">
+                <i class="fa-regular fa-calendar-check"></i> Book Your Experience
+              </button>
+              <button class="btn btn-outline-gold btn-lg" onclick="navigateTo('services')">
+                <i class="fa-solid fa-scissors"></i> View Salon Services
+              </button>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <h3>12+</h3>
+                <p>Master Stylists</p>
+              </div>
+              <div class="stat-item">
+                <h3>9,500+</h3>
+                <p>Delighted Clients</p>
+              </div>
+              <div class="stat-item">
+                <h3>4.9 ★</h3>
+                <p>Google Rating</p>
+              </div>
+              <div class="stat-item">
+                <h3>100%</h3>
+                <p>Organic Care</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Booking Strip -->
+      <section class="container">
+        <div class="quick-booking-bar">
+          <div class="quick-bar-grid">
+            <div class="form-group">
+              <label class="form-label"><i class="fa-solid fa-wand-magic-sparkles text-gold"></i> Select Service</label>
+              <select id="quickServiceSelect" class="form-control">
+                <option value="">-- Choose a Luxury Service --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><i class="fa-regular fa-calendar text-gold"></i> Preferred Date</label>
+              <input type="date" id="quickDateInput" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label"><i class="fa-regular fa-clock text-gold"></i> Time Slot</label>
+              <select id="quickTimeSlot" class="form-control">
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="02:00 PM">02:00 PM</option>
+                <option value="04:00 PM">04:00 PM</option>
+                <option value="06:00 PM">06:00 PM</option>
+              </select>
+            </div>
+            <div style="padding-top: 1.2rem;">
+              <button class="btn btn-primary" onclick="handleQuickBookRedirect()" style="width: 100%;">
+                <i class="fa-solid fa-arrow-right"></i> Reserve Slot
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Services Section -->
+      <section class="section-py">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Haute Coiffure &amp; Aesthetics</span>
+            <h2 class="section-title font-serif">Signature Salon Experiences</h2>
+            <p class="section-desc">Each treatment is an immersive sensory journey performed by internationally acclaimed master artisans.</p>
+          </div>
+          <div id="homeFeaturedServices" class="services-grid">
+            <!-- Injected dynamically via JS -->
+          </div>
+          <div style="text-align: center; margin-top: 3.5rem;">
+            <button class="btn btn-outline-gold btn-lg" onclick="navigateTo('services')">
+              Explore All Salon &amp; Spa Services <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Choose Us / Luxury Amenities -->
+      <section class="section-py" style="background: var(--bg-primary);">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">The LUMIÈRE Standard</span>
+            <h2 class="section-title font-serif">Uncompromising Sanctuary of Care</h2>
+            <p class="section-desc">Designed as a tranquil sanctuary where modern science complements pure botanical ingredients.</p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-gem"></i></div>
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Private VIP Suites</h3>
+              <p>Experience intimate styling sessions with customized aromatherapy, curated playlists, and complete privacy.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Clean Organic Botanicals</h3>
+              <p>We exclusively partner with certified sulfate-free, cruelty-free, vegan formulations from Kerastase and Olaplex.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-pump-soap"></i></div>
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Medical-Grade Hygiene</h3>
+              <p>Autoclave instrument sterilization, single-use botanical liners, and hospital-grade air purification.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-champagne-glasses"></i></div>
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Artisan Refreshments</h3>
+              <p>Complimentary artisanal espresso, organic matcha, chilled champagne, and sparkling botanical infusions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Client Testimonials -->
+      <section class="section-py">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Client Acclaim</span>
+            <h2 class="section-title font-serif">Loved by Clients Across India</h2>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div style="color: var(--gold-primary); margin-bottom: 0.8rem; font-size: 1.1rem;">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p style="font-style: italic; margin-bottom: 1.2rem;">"Kavita’s layer cut and L’Oréal hair spa transformed my frizzy hair completely! The texture is silky, the salon vibe is ultra-luxurious, and the Indiranagar location is so convenient."</p>
+              <h4 style="font-size: 1.05rem;">Deepika Rao</h4>
+              <span style="font-size: 0.8rem; color: var(--gold-light);">Indiranagar, Bengaluru</span>
+            </div>
+            <div class="feature-card">
+              <div style="color: var(--gold-primary); margin-bottom: 0.8rem; font-size: 1.1rem;">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p style="font-style: italic; margin-bottom: 1.2rem;">"Arjun is a true master at men’s grooming. The precision beard sculpting and eucalyptus hot towel shave gave me a razor-sharp look for my corporate gala."</p>
+              <h4 style="font-size: 1.05rem;">Rohan Mehta</h4>
+              <span style="font-size: 0.8rem; color: var(--gold-light);">Tech Founder &amp; Entrepreneur</span>
+            </div>
+            <div class="feature-card">
+              <div style="color: var(--gold-primary); margin-bottom: 0.8rem; font-size: 1.1rem;">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p style="font-style: italic; margin-bottom: 1.2rem;">"The O3+ bridal radiance facial took away all my wedding stress and tanning! Online booking was instant, and the staff treated me with royal hospitality."</p>
+              <h4 style="font-size: 1.05rem;">Ananya Sengupta</h4>
+              <span style="font-size: 0.8rem; color: var(--gold-light);">Creative Director, Koramangala</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Working Hours & Quick Location Banner -->
+      <section style="background: linear-gradient(135deg, #161b26 0%, #0e121a 100%); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border); padding: 3rem 0;">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+          <div>
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-door-open"></i> Salon Status</span>
+            <h3 class="font-serif" style="font-size: 1.8rem; margin-bottom: 0.3rem;">Open Daily in Indiranagar, Bengaluru</h3>
+            <p style="margin: 0;" id="bannerHours">Mon - Fri: 09:00 AM - 08:30 PM | Sat: 09:00 AM - 08:00 PM | Sun: 10:00 AM - 07:00 PM</p>
+          </div>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="tel:+919876543210" class="btn btn-outline-gold"><i class="fa-solid fa-phone"></i> Call Concierge</a>
+            <button class="btn btn-primary" onclick="navigateTo('booking')"><i class="fa-regular fa-calendar-check"></i> Book Now</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 2. SERVICES PAGE VIEW -->
+    <section id="page-services" class="page-view section-py" style="display: none;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Haute Coiffure &amp; Aesthetics</span>
+          <h2 class="section-title font-serif">Curated Salon &amp; Spa Menu</h2>
+          <p class="section-desc">Discover our comprehensive collection of bespoke hair styling, luxury color glosses, restorative facials, body rituals, and bridal couture services.</p>
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div style="max-width: 600px; margin: 0 auto 2.5rem; position: relative;">
+          <input type="text" id="serviceSearchInput" class="form-control" placeholder="Search services (e.g. Balayage, Facial, Shave, Keratin)..." oninput="filterServices()">
+          <i class="fa-solid fa-magnifying-glass" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary);"></i>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="services-filter" id="servicesFilterContainer">
+          <button class="filter-btn active" onclick="setCategoryFilter('All', this)">All Services</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Grooming', this)">Men’s Grooming</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Hair Styling & Cut', this)">Hair Styling &amp; Cut</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Hair Treatment', this)">Hair Spa &amp; Keratin</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Hair Coloring', this)">Hair Coloring</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Skincare & Facial', this)">Facials &amp; De-Tan</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Spa & Massage', this)">Spa &amp; Champi Massage</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Nails & Pedicure', this)">Pedicure &amp; Manicure</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Waxing & Threading', this)">Waxing &amp; Threading</button>
+          <button class="filter-btn" onclick="setCategoryFilter('Bridal & Glamour', this)">Bridal &amp; Saree Draping</button>
+        </div>
+
+        <!-- Dynamic Services Grid -->
+        <div id="servicesPageGrid" class="services-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. APPOINTMENT BOOKING PAGE VIEW -->
+    <section id="page-booking" class="page-view section-py" style="display: none;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Online Reservation</span>
+          <h2 class="section-title font-serif">Book Your Appointment</h2>
+          <p class="section-desc">Select your desired service, date, and time slot. Our real-time booking engine ensures seamless scheduling and prevents double bookings.</p>
+        </div>
+
+        <div class="booking-container">
+          <!-- Booking Form -->
+          <div class="booking-form-card">
+            <h3 class="font-serif" style="font-size: 1.6rem; margin-bottom: 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.8rem;">
+              <i class="fa-solid fa-calendar-check text-gold"></i> Reservation Details
+            </h3>
+
+            <form id="appointmentBookingForm" onsubmit="handleAppointmentSubmit(event)">
+              <!-- Step 1: Select Service -->
+              <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label" for="bookingServiceSelect">
+                  1. Select Salon Service <span class="text-gold">*</span>
+                </label>
+                <select id="bookingServiceSelect" class="form-control" required onchange="handleServiceChange()">
+                  <option value="">-- Choose from our Service Menu --</option>
+                </select>
+                <small id="serviceMetaHint" style="color: var(--gold-light); font-size: 0.82rem; margin-top: 0.3rem; display: none;"></small>
+              </div>
+
+              <!-- Step 2: Select Date -->
+              <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label" for="bookingDateInput">
+                  2. Select Appointment Date <span class="text-gold">*</span>
+                </label>
+                <input type="date" id="bookingDateInput" class="form-control" required onchange="fetchSlotAvailability()">
+                <small style="color: var(--text-dim); font-size: 0.8rem; margin-top: 0.3rem;">
+                  <i class="fa-solid fa-circle-info"></i> Appointments can be booked starting today. Max 3 bookings per service/slot.
+                </small>
+              </div>
+
+              <!-- Step 3: Available Time Slot Selector -->
+              <div class="form-group" style="margin-bottom: 1.8rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <label class="form-label">
+                    3. Select Available Time Slot <span class="text-gold">*</span>
+                  </label>
+                  <span id="slotStatusIndicator" style="font-size: 0.8rem; color: var(--gold-light);"></span>
+                </div>
+
+                <!-- Live Slots Grid -->
+                <div id="slotsGridContainer" class="time-slots-grid">
+                  <p style="grid-column: 1 / -1; color: var(--text-muted); font-size: 0.9rem; padding: 1rem 0;">
+                    Please select a service and date above to view real-time available time slots.
+                  </p>
+                </div>
+
+                <!-- Fully Booked Alert / Alternative Slots Suggestion Box -->
+                <div id="slotAlertContainer" style="display: none;"></div>
+                <input type="hidden" id="selectedTimeSlotInput" required>
+              </div>
+
+              <!-- Step 4: Stylist Preference (Optional) -->
+              <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label" for="bookingStylistSelect">
+                  4. Preferred Master Stylist (Optional)
+                </label>
+                <select id="bookingStylistSelect" class="form-control">
+                  <option value="Any Available Master Stylist">Any Available Master Stylist (First Available)</option>
+                  <option value="Kavita Nair (Creative Director &amp; Hair Artist)">Kavita Nair (Creative Director &amp; Hair Artist)</option>
+                  <option value="Arjun Kapoor (Executive Barber &amp; Stylist)">Arjun Kapoor (Executive Barber &amp; Stylist)</option>
+                  <option value="Meera Sen (Lead Skin &amp; Bridal Esthetician)">Meera Sen (Lead Skin &amp; Bridal Esthetician)</option>
+                  <option value="Rajesh Kumar (Master Texture &amp; Keratin Specialist)">Rajesh Kumar (Master Texture &amp; Keratin Specialist)</option>
+                </select>
+              </div>
+
+              <!-- Step 5: Customer Details -->
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; margin-top: 1.5rem;">
+                <h4 style="font-size: 1.15rem; margin-bottom: 1.2rem; color: var(--gold-light);">
+                  <i class="fa-regular fa-user text-gold"></i> Guest Contact Information
+                </h4>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="bookingCustomerName">Full Name <span class="text-gold">*</span></label>
+                    <input type="text" id="bookingCustomerName" class="form-control" placeholder="e.g. Priya Sharma" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="bookingCustomerPhone">Mobile Number <span class="text-gold">*</span></label>
+                    <input type="tel" id="bookingCustomerPhone" class="form-control" placeholder="e.g. +91 98450 12345" required>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label class="form-label" for="bookingCustomerEmail">Email Address</label>
+                  <input type="email" id="bookingCustomerEmail" class="form-control" placeholder="e.g. priya.sharma@example.com">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                  <label class="form-label" for="bookingNotes">Special Requests / Preferences (Optional)</label>
+                  <textarea id="bookingNotes" class="form-control" rows="2" placeholder="Let us know if you have scalp sensitivities, product preferences, or saree draping style..."></textarea>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="submitBookingBtn" class="btn btn-primary btn-lg" style="width: 100%;">
+                <i class="fa-solid fa-check-circle"></i> Confirm &amp; Reserve Appointment
+              </button>
+            </form>
+          </div>
+
+          <!-- Live Summary Card -->
+          <div class="booking-summary-card">
+            <h4 class="font-serif" style="font-size: 1.35rem; margin-bottom: 1.2rem; color: #fff;">
+              Appointment Summary
+            </h4>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.8rem;">
+                <span style="color: var(--text-dim); font-size: 0.88rem;">Selected Service:</span>
+                <span id="summaryServiceName" style="font-weight: 600; text-align: right; max-width: 180px;">None selected</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.8rem;">
+                <span style="color: var(--text-dim); font-size: 0.88rem;">Duration:</span>
+                <span id="summaryDuration" style="font-weight: 600;">--</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.8rem;">
+                <span style="color: var(--text-dim); font-size: 0.88rem;">Date:</span>
+                <span id="summaryDate" style="font-weight: 600;">--</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.8rem;">
+                <span style="color: var(--text-dim); font-size: 0.88rem;">Time Slot:</span>
+                <span id="summaryTimeSlot" style="font-weight: 600; color: var(--gold-light);">--</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.8rem;">
+                <span style="color: var(--text-dim); font-size: 0.88rem;">Stylist:</span>
+                <span id="summaryStylist" style="font-weight: 600; font-size: 0.85rem; text-align: right; max-width: 180px;">Any Available</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem;">
+                <span style="font-size: 1.1rem; font-weight: 700; color: #fff;">Estimated Total:</span>
+                <span id="summaryPrice" style="font-size: 1.5rem; font-weight: 700; color: var(--gold-primary);">₹0.00</span>
+              </div>
+            </div>
+
+            <!-- Guarantee Box -->
+            <div style="margin-top: 1.8rem; padding: 1rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid rgba(212,175,55,0.2); font-size: 0.82rem; color: var(--text-muted);">
+              <p style="margin-bottom: 0.4rem; color: var(--gold-light); font-weight: 600;">
+                <i class="fa-solid fa-shield-halved"></i> No Prepayment Required
+              </p>
+              <span>Pay upon arrival at the salon concierge. Enjoy hassle-free cancellation up to 2 hours before your appointment.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CANCEL APPOINTMENT VIEW -->
+    <section id="page-cancel" class="page-view section-py" style="display: none;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Appointment Management</span>
+          <h2 class="section-title font-serif">Cancel an Appointment</h2>
+          <p class="section-desc">Look up your scheduled appointment using your unique Booking ID or registered phone number. You can review all details before confirming cancellation.</p>
+        </div>
+
+        <div class="cancel-box-card">
+          <!-- Search Step Form -->
+          <div id="cancelSearchStep">
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.8rem;">
+              <button class="btn btn-sm btn-outline-gold active" id="searchByBookingIdBtn" onclick="toggleCancelSearchType('id')">
+                <i class="fa-solid fa-receipt"></i> Search by Booking ID
+              </button>
+              <button class="btn btn-sm btn-secondary" id="searchByPhoneBtn" onclick="toggleCancelSearchType('phone')">
+                <i class="fa-solid fa-phone"></i> Search by Phone Number
+              </button>
+            </div>
+
+            <form onsubmit="handleCancelLookup(event)">
+              <div id="lookupIdGroup" class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label" for="lookupBookingId">Unique Booking ID <span class="text-gold">*</span></label>
+                <input type="text" id="lookupBookingId" class="form-control" placeholder="e.g. LUMI-20261102-IN01" style="text-transform: uppercase;">
+                <small style="color: var(--text-dim); margin-top: 0.2rem;">Found on your appointment confirmation pass or SMS.</small>
+              </div>
+
+              <div id="lookupPhoneGroup" class="form-group" style="display: none; margin-bottom: 1.5rem;">
+                <label class="form-label" for="lookupPhone">Registered Mobile Number <span class="text-gold">*</span></label>
+                <input type="tel" id="lookupPhone" class="form-control" placeholder="e.g. +91 98450 12345">
+                <small style="color: var(--text-dim); margin-top: 0.2rem;">The exact phone number used when booking.</small>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fa-solid fa-magnifying-glass"></i> Find My Appointment
+              </button>
+            </form>
+          </div>
+
+          <!-- Review & Confirm Cancellation Step -->
+          <div id="cancelConfirmStep" style="display: none; margin-top: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+              <h4 class="font-serif" style="font-size: 1.35rem; color: #fff;">Review Appointment Details</h4>
+              <button class="btn btn-secondary btn-sm" onclick="resetCancelView()"><i class="fa-solid fa-arrow-left"></i> Search Again</button>
+            </div>
+
+            <div id="cancelBookingsListContainer">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ABOUT SHOP PAGE VIEW -->
+    <section id="page-about" class="page-view section-py" style="display: none;">
+      <div class="container">
+        <!-- Story / Intro -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; margin-bottom: 5rem;">
+          <div>
+            <span class="section-tag">Our Heritage &amp; Vision</span>
+            <h2 class="section-title font-serif" style="text-align: left; margin-bottom: 1.5rem;">
+              Crafted With Artistry, Dedicated to <span class="gold-gradient-text">Indian Radiance</span>
+            </h2>
+            <p id="aboutShopStory" style="line-height: 1.8; margin-bottom: 1.5rem;">
+              Founded in Bengaluru, LUMIÈRE brings together international haircare expertise with time-honored Indian botanical beauty rituals. We believe that self-care is a celebration of individuality. From restorative L’Oréal hair spas and O3+ brightening facials to signature bridal couture, our master artisans craft transformative experiences tailored to Indian hair and skin textures.
+            </p>
+            <div style="display: flex; gap: 2rem;">
+              <div>
+                <h4 class="text-gold font-serif" style="font-size: 1.8rem; margin: 0;">8+</h4>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Years of Excellence</span>
+              </div>
+              <div>
+                <h4 class="text-gold font-serif" style="font-size: 1.8rem; margin: 0;">35k+</h4>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Happy Clients in Bengaluru</span>
+              </div>
+              <div>
+                <h4 class="text-gold font-serif" style="font-size: 1.8rem; margin: 0;">100%</h4>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Genuine Products</span>
+              </div>
+            </div>
+          </div>
+          <div style="position: relative;">
+            <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80" alt="Lumiere Luxury Salon Bengaluru" style="width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--gold-border); box-shadow: var(--shadow-gold);">
+            <div style="position: absolute; bottom: -1.5rem; left: -1.5rem; background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: var(--radius-md); padding: 1.2rem; box-shadow: var(--shadow-lg);">
+              <p style="font-weight: 700; color: var(--gold-light); margin: 0;"><i class="fa-solid fa-award"></i> Best Luxury Salon 2025</p>
+              <span style="font-size: 0.78rem; color: var(--text-muted);">Bengaluru Lifestyle &amp; Wellness Awards</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Stylists Showcase -->
+        <div class="section-header">
+          <span class="section-tag">Artisan Guild</span>
+          <h2 class="section-title font-serif">Meet Our Master Stylists &amp; Estheticians</h2>
+          <p class="section-desc">Certified by L’Oréal Professionnel, Toni&amp;Guy, and O3+ Academy, our specialists deliver personalized care tailored to Indian climate and hair types.</p>
+        </div>
+        <div class="stylists-grid" style="margin-bottom: 5rem;">
+          <div class="stylist-card">
+            <div class="stylist-img-wrap">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" class="stylist-img" alt="Kavita Nair">
+            </div>
+            <div class="stylist-info">
+              <h3 class="stylist-name font-serif">Kavita Nair</h3>
+              <p class="stylist-role">Creative Director &amp; Hair Artist</p>
+              <p style="font-size: 0.85rem;">14 years of creative styling, advanced layer cutting, and balayage artistry across Mumbai and Bengaluru.</p>
+            </div>
+          </div>
+          <div class="stylist-card">
+            <div class="stylist-img-wrap">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" class="stylist-img" alt="Arjun Kapoor">
+            </div>
+            <div class="stylist-info">
+              <h3 class="stylist-name font-serif">Arjun Kapoor</h3>
+              <p class="stylist-role">Executive Barber &amp; Men’s Grooming Specialist</p>
+              <p style="font-size: 0.85rem;">Renowned for bespoke low-fades, sharp beard contouring, and hot towel wellness therapies.</p>
+            </div>
+          </div>
+          <div class="stylist-card">
+            <div class="stylist-img-wrap">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" class="stylist-img" alt="Meera Sen">
+            </div>
+            <div class="stylist-info">
+              <h3 class="stylist-name font-serif">Meera Sen</h3>
+              <p class="stylist-role">Lead Skin &amp; Bridal Esthetician</p>
+              <p style="font-size: 0.85rem;">Specializes in O3+ clinical facials, bridal de-tan treatments, and royal saree draping.</p>
+            </div>
+          </div>
+          <div class="stylist-card">
+            <div class="stylist-img-wrap">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80" class="stylist-img" alt="Rajesh Kumar">
+            </div>
+            <div class="stylist-info">
+              <h3 class="stylist-name font-serif">Rajesh Kumar</h3>
+              <p class="stylist-role">Master Texture &amp; Keratin Specialist</p>
+              <p style="font-size: 0.85rem;">Specialist in hair smoothening, keratin botox repair, and traditional Ayurvedic head champi.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Salon Facilities & Working Hours Grid -->
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 3rem;">
+          <div>
+            <h3 class="font-serif" style="font-size: 1.6rem; margin-bottom: 1rem; color: #fff;">
+              <i class="fa-solid fa-spa text-gold"></i> Premium Salon Facilities
+            </h3>
+            <p style="margin-bottom: 1.5rem;" id="aboutShopFacilities">
+              AC Private VIP Styling Lounges, 100% Organic &amp; Herbal Formulations, L’Oréal &amp; O3+ Certified Products, Express Champi Bar, Free Valet Parking, Hospital-Grade Sanitization.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem; color: #cbd5e1; font-size: 0.9rem;">
+                <i class="fa-solid fa-circle-check text-gold"></i> Free Valet Parking on 100ft Road
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.6rem; color: #cbd5e1; font-size: 0.9rem;">
+                <i class="fa-solid fa-circle-check text-gold"></i> Complimentary Filter Coffee &amp; Chai
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.6rem; color: #cbd5e1; font-size: 0.9rem;">
+                <i class="fa-solid fa-circle-check text-gold"></i> Private Bridal Changing &amp; Makeup Suite
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.6rem; color: #cbd5e1; font-size: 0.9rem;">
+                <i class="fa-solid fa-circle-check text-gold"></i> High-Speed Client WiFi &amp; AC
+              </div>
+            </div>
+
+            <!-- Location & Address Card -->
+            <div style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
+              <h4 style="font-size: 1.15rem; color: var(--gold-light); margin-bottom: 0.6rem;">
+                <i class="fa-solid fa-location-dot text-gold"></i> Salon Location &amp; Directions
+              </h4>
+              <p id="aboutShopAddress" style="color: #fff; font-weight: 500; margin-bottom: 0.3rem;">
+                Plot No. 42, 100 Feet Road, Indiranagar, Bengaluru, Karnataka 560038
+              </p>
+              <span style="font-size: 0.85rem; color: var(--text-dim);">Landmark: Opposite Metro Pillar 84, Indiranagar. Dedicated valet portico available.</span>
+            </div>
+          </div>
+
+          <!-- Working Hours Table -->
+          <div>
+            <h3 class="font-serif" style="font-size: 1.6rem; margin-bottom: 1rem; color: #fff;">
+              <i class="fa-regular fa-clock text-gold"></i> Salon Operating Hours
+            </h3>
+            <table class="hours-table">
+              <tbody id="aboutHoursTableBody">
+                <tr id="hoursMon"><td>Monday</td><td style="text-align: right;" id="hourValMon">09:00 AM - 08:30 PM</td></tr>
+                <tr id="hoursTue"><td>Tuesday</td><td style="text-align: right;" id="hourValTue">09:00 AM - 08:30 PM</td></tr>
+                <tr id="hoursWed"><td>Wednesday</td><td style="text-align: right;" id="hourValWed">09:00 AM - 08:30 PM</td></tr>
+                <tr id="hoursThu"><td>Thursday</td><td style="text-align: right;" id="hourValThu">09:00 AM - 08:30 PM</td></tr>
+                <tr id="hoursFri"><td>Friday</td><td style="text-align: right;" id="hourValFri">09:00 AM - 08:30 PM</td></tr>
+                <tr id="hoursSat"><td>Saturday</td><td style="text-align: right;" id="hourValSat">09:00 AM - 08:00 PM</td></tr>
+                <tr id="hoursSun"><td>Sunday</td><td style="text-align: right;" id="hourValSun">10:00 AM - 07:00 PM</td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top: 1.2rem; padding: 0.8rem; background: var(--bg-primary); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem;">
+              <span style="color: var(--gold-light); font-weight: 600;"><i class="fa-solid fa-calendar-xmark"></i> Observed Holidays:</span>
+              <p id="aboutShopHolidays" style="margin: 0.2rem 0 0; color: var(--text-muted);">Diwali, Pongal / Makar Sankranti, Independence Day (Aug 15), Republic Day (Jan 26)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CONTACT PAGE VIEW -->
+    <section id="page-contact" class="page-view section-py" style="display: none;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Direct Concierge</span>
+          <h2 class="section-title font-serif">Connect With LUMIÈRE India</h2>
+          <p class="section-desc">Have a question regarding pre-bridal consultations, private salon hire, or appointment inquiries? Our dedicated concierge team in Bengaluru is at your service.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 3.5rem;">
+          <!-- Contact Info Cards -->
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-phone"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.3rem;">Telephone Concierge</h4>
+              <p id="contactCardPhone" style="color: var(--gold-light); font-weight: 600; font-size: 1.05rem; margin-bottom: 0.2rem;">+91 98765 43210</p>
+              <span style="font-size: 0.82rem; color: var(--text-dim);">Available Monday through Sunday from 8:30 AM</span>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-envelope"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.3rem;">Electronic Mail</h4>
+              <p id="contactCardEmail" style="color: var(--gold-light); font-weight: 600; font-size: 1.05rem; margin-bottom: 0.2rem;">concierge@lumieresalon.in</p>
+              <span style="font-size: 0.82rem; color: var(--text-dim);">Guaranteed response within 4 hours</span>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.3rem;">Salon Address</h4>
+              <p id="contactCardAddress" style="color: #fff; font-weight: 500; margin-bottom: 0.2rem;">Plot No. 42, 100 Feet Road, Indiranagar, Bengaluru, Karnataka 560038</p>
+              <span style="font-size: 0.82rem; color: var(--text-dim);">Valet parking available at front entry</span>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="booking-form-card">
+            <h3 class="font-serif" style="font-size: 1.5rem; margin-bottom: 1.5rem;">
+              <i class="fa-regular fa-paper-plane text-gold"></i> Send Our Concierge a Message
+            </h3>
+            <form onsubmit="handleContactSubmit(event)">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-group">
+                  <label class="form-label" for="contactName">Your Name <span class="text-gold">*</span></label>
+                  <input type="text" id="contactName" class="form-control" placeholder="e.g. Priya Sharma" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="contactPhone">Phone Number</label>
+                  <input type="tel" id="contactPhone" class="form-control" placeholder="e.g. +91 98450 12345">
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <label class="form-label" for="contactEmail">Email Address <span class="text-gold">*</span></label>
+                <input type="email" id="contactEmail" class="form-control" placeholder="e.g. eleanor@example.com" required>
+              </div>
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <label class="form-label" for="contactSubject">Subject</label>
+                <input type="text" id="contactSubject" class="form-control" placeholder="e.g. Bridal Package Inquiry, Booking Assistance">
+              </div>
+              <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label" for="contactMessage">Your Message <span class="text-gold">*</span></label>
+                <textarea id="contactMessage" class="form-control" rows="4" placeholder="How may our concierge assist your salon visit today?" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                <i class="fa-solid fa-paper-plane"></i> Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. MY APPOINTMENTS PAGE VIEW -->
+    <section id="page-my-appointments" class="page-view section-py" style="display: none;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Personal Portfolio</span>
+          <h2 class="section-title font-serif">My Appointments</h2>
+          <p class="section-desc">View your upcoming reservations, track past completed transformations, or modify your bookings.</p>
+        </div>
+
+        <!-- Guest Prompt if not logged in -->
+        <div id="myAppointmentsGuestPrompt" style="display: none; text-align: center; background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: var(--radius-lg); padding: 3.5rem 2rem; max-width: 600px; margin: 0 auto;">
+          <div style="font-size: 3rem; color: var(--gold-primary); margin-bottom: 1rem;">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h3 class="font-serif" style="font-size: 1.8rem; margin-bottom: 0.8rem;">Please Sign In to Access Your Appointments</h3>
+          <p style="margin-bottom: 2rem;">Log in to your LUMIÈRE account to view upcoming bookings, download digital appointment passes, or rebook favorite treatments.</p>
+          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-primary" onclick="openAuthModal('login')">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In Now
+            </button>
+            <button class="btn btn-outline-gold" onclick="navigateTo('cancel')">
+              <i class="fa-solid fa-receipt"></i> Quick Cancel with Booking ID
+            </button>
+          </div>
+        </div>
+
+        <!-- Logged-in Content -->
+        <div id="myAppointmentsUserContent" style="display: none;">
+          <!-- Tabs: All, Upcoming, Completed, Cancelled -->
+          <div class="appointments-tabs">
+            <button class="app-tab-btn active" onclick="switchAppointmentTab('all', this)">
+              All Appointments (<span id="countAllAppointments">0</span>)
+            </button>
+            <button class="app-tab-btn" onclick="switchAppointmentTab('upcoming', this)">
+              Upcoming (<span id="countUpcomingAppointments">0</span>)
+            </button>
+            <button class="app-tab-btn" onclick="switchAppointmentTab('completed', this)">
+              Completed (<span id="countCompletedAppointments">0</span>)
+            </button>
+            <button class="app-tab-btn" onclick="switchAppointmentTab('cancelled', this)">
+              Cancelled (<span id="countCancelledAppointments">0</span>)
+            </button>
+          </div>
+
+          <!-- Appointments List -->
+          <div id="appointmentsListContainer">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- Col 1: Brand Info -->
+          <div class="footer-col">
+            <a href="#home" class="brand-logo" onclick="navigateTo('home')" style="margin-bottom: 1rem;">
+              <div class="brand-icon"><i class="fa-solid fa-crown"></i></div>
+              <div class="brand-text">
+                <h1 class="font-serif">LUMIÈRE</h1>
+                <span>Luxury Salon &amp; Spa</span>
+              </div>
+            </a>
+            <p style="font-size: 0.9rem; margin-bottom: 1.2rem;">
+              A premier haute coiffure and holistic wellness destination dedicated to exceptional artistry, personalized rituals, and pure botanical radiance.
+            </p>
+            <div style="display: flex; gap: 0.8rem; font-size: 1.2rem;">
+              <a href="javascript:void(0)" class="text-gold" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              <a href="javascript:void(0)" class="text-gold" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="javascript:void(0)" class="text-gold" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+              <a href="javascript:void(0)" class="text-gold" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+          </div>
+
+          <!-- Col 2: Navigation Links -->
+          <div class="footer-col">
+            <h4>Quick Navigation</h4>
+            <ul class="footer-links">
+              <li><a href="#home" onclick="navigateTo('home')">Home Page</a></li>
+              <li><a href="#services" onclick="navigateTo('services')">Services &amp; Pricing</a></li>
+              <li><a href="#booking" onclick="navigateTo('booking')">Book Appointment</a></li>
+              <li><a href="#my-appointments" onclick="navigateTo('my-appointments')">My Appointments</a></li>
+              <li><a href="#cancel" onclick="navigateTo('cancel')">Cancel Appointment</a></li>
+              <li><a href="#about" onclick="navigateTo('about')">About LUMIÈRE</a></li>
+              <li><a href="#contact" onclick="navigateTo('contact')">Contact &amp; Concierge</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Operating Hours -->
+          <div class="footer-col">
+            <h4>Salon Hours</h4>
+            <ul class="footer-links" style="font-size: 0.88rem;">
+              <li style="color: var(--text-muted);"><span style="color: #fff;">Monday - Friday:</span><br>9:00 AM - 8:00 PM</li>
+              <li style="color: var(--text-muted);"><span style="color: #fff;">Saturday:</span><br>9:00 AM - 7:00 PM</li>
+              <li style="color: var(--text-muted);"><span style="color: #fff;">Sunday:</span><br>10:00 AM - 6:00 PM</li>
+              <li style="margin-top: 0.5rem;"><a href="#contact" onclick="navigateTo('contact')" style="color: var(--gold-light);">Valet Parking Available</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter & Admin Access -->
+          <div class="footer-col">
+            <h4>Stay Connected</h4>
+            <p style="font-size: 0.88rem; margin-bottom: 1rem;">Receive seasonal promotions, styling trends, and exclusive invitation-only events.</p>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+              <input type="email" placeholder="Your email address" class="form-control" style="font-size: 0.85rem; padding: 0.5rem 0.8rem;">
+              <button class="btn btn-primary btn-sm" onclick="showToast('Thank you for subscribing to LUMIÈRE exclusives!', 'success')">Join</button>
+            </div>
+            <div style="padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.08);">
+              <a href="#admin" onclick="openAdminPanel()" class="btn btn-secondary btn-sm" style="width: 100%;">
+                <i class="fa-solid fa-shield-halved text-gold"></i> Staff &amp; Admin Portal
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 LUMIÈRE Luxury Salon &amp; Spa. All rights reserved. Handcrafted with passion.</p>
+          <div style="display: flex; gap: 1.5rem;">
+            <a href="javascript:void(0)" class="text-dim">Privacy Policy</a>
+            <a href="javascript:void(0)" class="text-dim">Terms of Service</a>
+            <a href="#admin" onclick="openAdminPanel()" class="text-gold">Admin Login</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =========================================================================
+       MODALS
+       ========================================================================= -->
+
+  <!-- 1. AUTHENTICATION MODAL (LOGIN / REGISTER) -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeAuthModal()" aria-label="Close modal">&times;</button>
+      
+      <!-- Modal Tabs -->
+      <div style="display: flex; gap: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.8rem;">
+        <button id="authTabLogin" class="app-tab-btn active" onclick="switchAuthTab('login')">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+        </button>
+        <button id="authTabRegister" class="app-tab-btn" onclick="switchAuthTab('register')">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+        <div class="form-group" style="margin-bottom: 1.2rem;">
+          <label class="form-label" for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="e.g. sarah.jenkins@example.com" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 1.2rem;">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Account
+        </button>
+
+        <!-- Quick Demo Credentials Box -->
+        <div style="background: var(--bg-primary); border: 1px dashed var(--gold-border); border-radius: var(--radius-md); padding: 1rem; margin-top: 1rem;">
+          <p style="font-size: 0.8rem; font-weight: 700; color: var(--gold-light); margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-key"></i> Quick Demo Logins:
+          </p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="quickFillCustomerLogin()">
+              <i class="fa-regular fa-user"></i> Customer (Priya Sharma)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="quickFillAdminLogin()">
+              <i class="fa-solid fa-shield-halved text-gold"></i> Salon Admin
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" onsubmit="handleRegisterSubmit(event)" style="display: none;">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="regName">Full Name <span class="text-gold">*</span></label>
+          <input type="text" id="regName" class="form-control" placeholder="e.g. Sarah Jenkins" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="regEmail">Email Address <span class="text-gold">*</span></label>
+          <input type="email" id="regEmail" class="form-control" placeholder="e.g. sarah.jenkins@example.com" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="regPhone">Mobile Phone Number <span class="text-gold">*</span></label>
+          <input type="tel" id="regPhone" class="form-control" placeholder="e.g. +1 555-019-2834" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" for="regPassword">Create Password <span class="text-gold">*</span></label>
+          <input type="password" id="regPassword" class="form-control" placeholder="••••••••" minlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+          <i class="fa-solid fa-user-plus"></i> Create Customer Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. APPOINTMENT CONFIRMATION / DIGITAL PASS MODAL -->
+  <div id="bookingSuccessModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 600px; text-align: center;">
+      <button class="modal-close" onclick="closeSuccessModal()" aria-label="Close modal">&times;</button>
+      
+      <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--success-bg); border: 2px solid var(--success); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1.2rem;">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="font-serif" style="font-size: 1.8rem; margin-bottom: 0.4rem; color: #fff;">Appointment Confirmed!</h3>
+      <p style="margin-bottom: 1.5rem;">Your reservation has been securely registered in the salon calendar.</p>
+
+      <!-- Digital Pass Card -->
+      <div class="booking-pass" id="printablePass">
+        <div class="pass-header">
+          <h4 class="font-serif" style="letter-spacing: 0.1em; color: var(--gold-light); margin: 0;">LUMIÈRE SALON &amp; SPA</h4>
+          <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Official Appointment Confirmation</span>
+          <div class="pass-id" id="passBookingId">LUMI-20261102-8F42</div>
+        </div>
+
+        <div class="pass-details-grid">
+          <div class="pass-item">
+            <label>Service</label>
+            <value id="passServiceName">Women’s Advanced Layer Cut &amp; Blowdry Style</value>
+          </div>
+          <div class="pass-item">
+            <label>Price</label>
+            <value id="passPrice" class="text-gold">₹650.00</value>
+          </div>
+          <div class="pass-item">
+            <label>Date</label>
+            <value id="passDate">Nov 02, 2026</value>
+          </div>
+          <div class="pass-item">
+            <label>Time Slot</label>
+            <value id="passTimeSlot">11:00 AM</value>
+          </div>
+          <div class="pass-item">
+            <label>Guest Name</label>
+            <value id="passCustomerName">Priya Sharma</value>
+          </div>
+          <div class="pass-item">
+            <label>Stylist</label>
+            <value id="passStylist">Kavita Nair</value>
+          </div>
+        </div>
+
+        <div style="border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 1rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+          <p style="margin-bottom: 0.2rem;"><i class="fa-solid fa-location-dot text-gold"></i> Plot No. 42, 100 Feet Road, Indiranagar, Bengaluru</p>
+          <span>Please arrive 10 minutes prior to relax and enjoy our complimentary South Indian filter coffee or herbal tea.</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.8rem; flex-wrap: wrap;">
+        <button class="btn btn-outline-gold" onclick="window.print()"><i class="fa-solid fa-print"></i> Print / Save Receipt</button>
+        <button class="btn btn-primary" onclick="closeSuccessModal(); navigateTo('my-appointments');"><i class="fa-solid fa-calendar"></i> View in My Appointments</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       ADMIN PANEL APPLICATION (SEPARATE INTERFACE)
+       ========================================================================= -->
+  <div id="adminApp" style="display: none;">
+    <!-- Admin Login Screen (Shown when not authenticated as admin) -->
+    <div id="adminLoginScreen" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at top, #161b26 0%, #090b10 100%); padding: 1.5rem;">
+      <div style="background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: var(--radius-lg); max-width: 440px; width: 100%; padding: 2.8rem 2.2rem; box-shadow: var(--shadow-lg); text-align: center;">
+        <div class="brand-icon" style="margin: 0 auto 1.2rem; width: 52px; height: 52px; font-size: 1.6rem;">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 class="font-serif" style="font-size: 1.8rem; margin-bottom: 0.4rem; color: #fff;">LUMIÈRE Admin Portal</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 2rem;">Authorized salon management and operational controls.</p>
+
+        <form onsubmit="handleAdminLoginSubmit(event)" style="text-align: left;">
+          <div class="form-group" style="margin-bottom: 1.2rem;">
+            <label class="form-label" for="adminEmailInput">Admin Email Address</label>
+            <input type="email" id="adminEmailInput" class="form-control" value="admin@luxesalon.com" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1.8rem;">
+            <label class="form-label" for="adminPasswordInput">Admin Password</label>
+            <input type="password" id="adminPasswordInput" class="form-control" value="admin123" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 1.2rem;">
+            <i class="fa-solid fa-lock-open"></i> Unlock Dashboard
+          </button>
+        </form>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.2rem; display: flex; justify-content: space-between; align-items: center;">
+          <button class="btn btn-secondary btn-sm" onclick="closeAdminPanel()">
+            <i class="fa-solid fa-arrow-left"></i> Return to Salon Web
+          </button>
+          <span style="font-size: 0.78rem; color: var(--gold-light);">Preloaded credentials ready</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Dashboard Main Layout (Shown when authenticated) -->
+    <div id="adminMainLayout" class="admin-layout" style="display: none;">
+      <!-- Sidebar Navigation -->
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+          <div class="brand-icon" style="width: 36px; height: 36px; font-size: 1rem;">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div class="brand-text">
+            <h3 class="font-serif" style="font-size: 1.15rem; margin: 0; color: #fff;">LUMIÈRE</h3>
+            <span style="font-size: 0.65rem; color: var(--gold-light); letter-spacing: 0.2em; text-transform: uppercase;">Admin Portal</span>
+          </div>
+        </div>
+
+        <ul class="admin-nav-list">
+          <li class="admin-nav-item active" data-admin-view="dashboard" onclick="switchAdminView('dashboard')">
+            <i class="fa-solid fa-gauge-high"></i> <span class="nav-text">Dashboard</span>
+          </li>
+          <li class="admin-nav-item" data-admin-view="bookings" onclick="switchAdminView('bookings')">
+            <i class="fa-regular fa-calendar-check"></i> <span class="nav-text">Manage Bookings</span>
+          </li>
+          <li class="admin-nav-item" data-admin-view="services" onclick="switchAdminView('services')">
+            <i class="fa-solid fa-scissors"></i> <span class="nav-text">Manage Services</span>
+          </li>
+          <li class="admin-nav-item" data-admin-view="slots" onclick="switchAdminView('slots')">
+            <i class="fa-regular fa-clock"></i> <span class="nav-text">Slot Management</span>
+          </li>
+          <li class="admin-nav-item" data-admin-view="customers" onclick="switchAdminView('customers')">
+            <i class="fa-solid fa-users"></i> <span class="nav-text">Customers</span>
+          </li>
+          <li class="admin-nav-item" data-admin-view="shop" onclick="switchAdminView('shop')">
+            <i class="fa-solid fa-store"></i> <span class="nav-text">Shop Management</span>
+          </li>
+          <li class="admin-nav-item" data-admin-view="reports" onclick="switchAdminView('reports')">
+            <i class="fa-solid fa-chart-line"></i> <span class="nav-text">Reports &amp; Analytics</span>
+          </li>
+        </ul>
+
+        <div style="padding: 1rem; border-top: 1px solid rgba(255,255,255,0.08);">
+          <button class="btn btn-secondary btn-sm" onclick="closeAdminPanel()" style="width: 100%; margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-arrow-left"></i> <span class="nav-text">Customer Website</span>
+          </button>
+          <button class="btn btn-outline-danger btn-sm" onclick="handleLogout()" style="width: 100%;">
+            <i class="fa-solid fa-power-off"></i> <span class="nav-text">Sign Out</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Area -->
+      <div class="admin-main">
+        <!-- Admin Topbar -->
+        <header class="admin-topbar">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <h3 id="adminCurrentViewTitle" class="font-serif" style="font-size: 1.35rem; margin: 0; color: #fff;">Operational Dashboard</h3>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.2rem;">
+            <span id="adminLiveDate" style="font-size: 0.85rem; color: var(--gold-light);"></span>
+            <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.35rem 0.9rem; background: var(--bg-card); border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.08);">
+              <i class="fa-solid fa-shield text-gold"></i>
+              <span id="adminLoggedName" style="font-size: 0.85rem; font-weight: 600;">Salon Master Admin</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Admin Views Container -->
+        <div class="admin-content">
+          <!-- VIEW 1: ADMIN DASHBOARD -->
+          <div id="admin-view-dashboard" class="admin-subview">
+            <!-- Metric Cards Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.2rem;">
+              <div class="admin-stat-card">
+                <div class="stat-icon-wrap" style="background: rgba(212,175,55,0.15); color: var(--gold-primary);">
+                  <i class="fa-regular fa-calendar-check"></i>
+                </div>
+                <div>
+                  <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.2rem;">TOTAL BOOKINGS</p>
+                  <h3 id="dashTotalBookings" style="font-size: 1.8rem; margin: 0; color: #fff;">0</h3>
+                </div>
+              </div>
+
+              <div class="admin-stat-card">
+                <div class="stat-icon-wrap" style="background: rgba(59,130,246,0.15); color: var(--info);">
+                  <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <div>
+                  <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.2rem;">TODAY'S APPOINTMENTS</p>
+                  <h3 id="dashTodayBookings" style="font-size: 1.8rem; margin: 0; color: #fff;">0</h3>
+                </div>
+              </div>
+
+              <div class="admin-stat-card">
+                <div class="stat-icon-wrap" style="background: rgba(245,158,11,0.15); color: var(--warning);">
+                  <i class="fa-regular fa-hourglass-half"></i>
+                </div>
+                <div>
+                  <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.2rem;">PENDING BOOKINGS</p>
+                  <h3 id="dashPendingBookings" style="font-size: 1.8rem; margin: 0; color: #fff;">0</h3>
+                </div>
+              </div>
+
+              <div class="admin-stat-card">
+                <div class="stat-icon-wrap" style="background: rgba(16,185,129,0.15); color: var(--success);">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                  <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.2rem;">COMPLETED</p>
+                  <h3 id="dashCompletedBookings" style="font-size: 1.8rem; margin: 0; color: #fff;">0</h3>
+                </div>
+              </div>
+
+              <div class="admin-stat-card">
+                <div class="stat-icon-wrap" style="background: rgba(239,68,68,0.15); color: var(--danger);">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <div>
+                  <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.2rem;">CANCELLATIONS</p>
+                  <h3 id="dashCancelledBookings" style="font-size: 1.8rem; margin: 0; color: #fff;">0</h3>
+                </div>
+              </div>
+
+              <div class="admin-stat-card">
+                <div class="stat-icon-wrap" style="background: rgba(212,175,55,0.25); color: var(--gold-light);">
+                  <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+                <div>
+                  <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.2rem;">TOTAL REVENUE</p>
+                  <h3 id="dashTotalRevenue" style="font-size: 1.8rem; margin: 0; color: var(--gold-light);">₹0</h3>
+                </div>
+              </div>
+            </div>
+
+            <!-- Today's Schedule & Recent Activity Section -->
+            <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem;">
+              <!-- Today's Appointments Table -->
+              <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+                  <h4 class="font-serif" style="font-size: 1.25rem; color: #fff; margin: 0;">Today's Salon Schedule</h4>
+                  <button class="btn btn-secondary btn-sm" onclick="switchAdminView('bookings')">View All</button>
+                </div>
+                <div id="dashTodayAppointmentsContainer" class="table-responsive">
+                  <!-- Populated via JS -->
+                </div>
+              </div>
+
+              <!-- Recent Activity Stream -->
+              <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+                <h4 class="font-serif" style="font-size: 1.25rem; color: #fff; margin-bottom: 1.2rem;">Recent Booking Activity</h4>
+                <div id="dashRecentActivityContainer" style="display: flex; flex-direction: column; gap: 0.9rem;">
+                  <!-- Populated via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW 2: MANAGE BOOKINGS -->
+          <div id="admin-view-bookings" class="admin-subview" style="display: none;">
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+              <!-- Filter Controls -->
+              <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+                <input type="text" id="adminBookingSearch" class="form-control" placeholder="Search customer, phone, booking ID, service..." oninput="loadAdminBookings()">
+                <select id="adminBookingStatusFilter" class="form-control" onchange="loadAdminBookings()">
+                  <option value="all">All Statuses</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="pending">Pending</option>
+                </select>
+                <input type="date" id="adminBookingDateFilter" class="form-control" onchange="loadAdminBookings()">
+                <button class="btn btn-secondary" onclick="resetAdminBookingFilters()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+              </div>
+
+              <!-- Bookings Table -->
+              <div class="table-responsive">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Booking ID</th>
+                      <th>Customer</th>
+                      <th>Phone</th>
+                      <th>Service</th>
+                      <th>Date &amp; Time</th>
+                      <th>Stylist</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminBookingsTableBody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW 3: MANAGE SERVICES -->
+          <div id="admin-view-services" class="admin-subview" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem;">
+              <div>
+                <h3 class="font-serif" style="font-size: 1.5rem; margin: 0; color: #fff;">Salon Services Catalog</h3>
+                <p style="margin: 0.2rem 0 0; font-size: 0.88rem;">Add, edit, deactivate, or delete services, prices, and durations.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openServiceModal('add')">
+                <i class="fa-solid fa-plus"></i> Add New Service
+              </button>
+            </div>
+
+            <div class="table-responsive" style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08);">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Service Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminServicesTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- VIEW 4: SLOT MANAGEMENT -->
+          <div id="admin-view-slots" class="admin-subview" style="display: none;">
+            <!-- Capacity Config Box -->
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem; margin-bottom: 2rem;">
+              <h4 class="font-serif" style="font-size: 1.35rem; margin-bottom: 0.8rem; color: #fff;">
+                <i class="fa-solid fa-sliders text-gold"></i> Maximum Booking Capacity Per Slot
+              </h4>
+              <p style="font-size: 0.9rem; margin-bottom: 1.2rem;">Enforces the maximum number of concurrent bookings allowed for each service at any given date and time slot.</p>
+              <div style="display: flex; gap: 1rem; align-items: center; max-width: 400px;">
+                <input type="number" id="adminMaxCapacityInput" class="form-control" min="1" max="20" value="3">
+                <button class="btn btn-primary" onclick="saveAdminSlotCapacity()"><i class="fa-solid fa-floppy-disk"></i> Update Capacity</button>
+              </div>
+            </div>
+
+            <!-- Date Slot Inspector & Slot Blocking -->
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem;">
+              <!-- Slot Inspector -->
+              <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+                  <h4 class="font-serif" style="font-size: 1.25rem; color: #fff; margin: 0;">Date Slot Availability Inspector</h4>
+                  <input type="date" id="adminSlotDateInspector" class="form-control" style="width: 170px;" onchange="loadAdminSlots()">
+                </div>
+                <div id="adminSlotsInspectorGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.8rem;">
+                  <!-- Populated via JS -->
+                </div>
+              </div>
+
+              <!-- Block Slot / Date Form -->
+              <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+                <h4 class="font-serif" style="font-size: 1.25rem; color: #fff; margin-bottom: 1.2rem;">
+                  <i class="fa-solid fa-ban text-gold"></i> Block Slot or Date
+                </h4>
+                <form onsubmit="handleBlockSlotSubmit(event)">
+                  <div class="form-group" style="margin-bottom: 1rem;">
+                    <label class="form-label">Date to Block <span class="text-gold">*</span></label>
+                    <input type="date" id="blockSlotDate" class="form-control" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 1rem;">
+                    <label class="form-label">Specific Time Slot (Optional)</label>
+                    <select id="blockSlotTime" class="form-control">
+                      <option value="">All Day (Full Day Closure)</option>
+                      <option value="09:00 AM">09:00 AM</option>
+                      <option value="10:00 AM">10:00 AM</option>
+                      <option value="11:00 AM">11:00 AM</option>
+                      <option value="12:00 PM">12:00 PM</option>
+                      <option value="01:00 PM">01:00 PM</option>
+                      <option value="02:00 PM">02:00 PM</option>
+                      <option value="03:00 PM">03:00 PM</option>
+                      <option value="04:00 PM">04:00 PM</option>
+                      <option value="05:00 PM">05:00 PM</option>
+                      <option value="06:00 PM">06:00 PM</option>
+                      <option value="07:00 PM">07:00 PM</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label">Reason for Closure / Block</label>
+                    <input type="text" id="blockSlotReason" class="form-control" placeholder="e.g. Salon Deep Cleaning, Private VIP Buyout">
+                  </div>
+                  <button type="submit" class="btn btn-danger" style="width: 100%;">
+                    <i class="fa-solid fa-lock"></i> Apply Block
+                  </button>
+                </form>
+
+                <!-- Currently Blocked Slots List -->
+                <div style="margin-top: 1.8rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.2rem;">
+                  <h5 style="font-size: 0.95rem; margin-bottom: 0.8rem; color: var(--gold-light);">Active Blocked Schedule</h5>
+                  <div id="adminBlockedListContainer" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;">
+                    <!-- Populated via JS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW 5: CUSTOMER MANAGEMENT -->
+          <div id="admin-view-customers" class="admin-subview" style="display: none;">
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <div>
+                  <h3 class="font-serif" style="font-size: 1.5rem; margin: 0; color: #fff;">Registered Customers</h3>
+                  <p style="margin: 0.2rem 0 0; font-size: 0.88rem;">View customer profiles and complete appointment booking history.</p>
+                </div>
+                <div style="width: 300px;">
+                  <input type="text" id="adminCustomerSearch" class="form-control" placeholder="Search customer name, email, phone..." oninput="loadAdminCustomers()">
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Customer Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Registered On</th>
+                      <th>Total Appointments</th>
+                      <th>Total Spent</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminCustomersTableBody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW 6: SHOP MANAGEMENT -->
+          <div id="admin-view-shop" class="admin-subview" style="display: none;">
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 2.2rem; max-width: 900px;">
+              <h3 class="font-serif" style="font-size: 1.6rem; margin-bottom: 0.5rem; color: #fff;">
+                <i class="fa-solid fa-store text-gold"></i> Salon Shop Management
+              </h3>
+              <p style="font-size: 0.9rem; margin-bottom: 2rem;">Updates saved here are immediately reflected across the customer-facing Home, About, and Contact pages.</p>
+
+              <form onsubmit="handleShopSettingsSubmit(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="settingSalonName">Salon Name</label>
+                    <input type="text" id="settingSalonName" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="settingTagline">Tagline</label>
+                    <input type="text" id="settingTagline" class="form-control" required>
+                  </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="settingPhone">Contact Phone Hotline</label>
+                    <input type="text" id="settingPhone" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="settingEmail">Concierge Email</label>
+                    <input type="email" id="settingEmail" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                  <label class="form-label" for="settingAddress">Physical Salon Address</label>
+                  <input type="text" id="settingAddress" class="form-control" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="settingHoursMonFri">Mon - Fri Hours</label>
+                    <input type="text" id="settingHoursMonFri" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="settingHoursSat">Saturday Hours</label>
+                    <input type="text" id="settingHoursSat" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="settingHoursSun">Sunday Hours</label>
+                    <input type="text" id="settingHoursSun" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                  <label class="form-label" for="settingAboutStory">About Story &amp; Philosophy</label>
+                  <textarea id="settingAboutStory" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                  <label class="form-label" for="settingFacilities">Salon Facilities &amp; Amenities</label>
+                  <input type="text" id="settingFacilities" class="form-control" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 2rem;">
+                  <label class="form-label" for="settingHolidays">Observed Salon Holidays / Closed Dates</label>
+                  <input type="text" id="settingHolidays" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <i class="fa-solid fa-floppy-disk"></i> Save All Shop Changes
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- VIEW 7: REPORTS & ANALYTICS -->
+          <div id="admin-view-reports" class="admin-subview" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem;">
+              <div>
+                <h3 class="font-serif" style="font-size: 1.5rem; margin: 0; color: #fff;">Operational Reports &amp; Analytics</h3>
+                <p style="margin: 0.2rem 0 0; font-size: 0.88rem;">Visual breakdown of daily, weekly, and monthly bookings and revenue performance.</p>
+              </div>
+              <button class="btn btn-outline-gold" onclick="window.print()">
+                <i class="fa-solid fa-file-arrow-down"></i> Print / Export Report
+              </button>
+            </div>
+
+            <!-- Chart Row -->
+            <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+              <!-- Bookings & Revenue Trend Chart -->
+              <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+                <h4 class="font-serif" style="font-size: 1.2rem; color: #fff; margin-bottom: 1rem;">Revenue &amp; Booking Trends (Recent 14 Days)</h4>
+                <div style="height: 320px;">
+                  <canvas id="reportsTrendChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Status Breakdown Chart -->
+              <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+                <h4 class="font-serif" style="font-size: 1.2rem; color: #fff; margin-bottom: 1rem;">Appointment Status Distribution</h4>
+                <div style="height: 320px;">
+                  <canvas id="reportsStatusChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Top Services Ranking -->
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.08); padding: 1.8rem;">
+              <h4 class="font-serif" style="font-size: 1.2rem; color: #fff; margin-bottom: 1.2rem;">Top Performing Services by Booking Volume</h4>
+              <div id="adminTopServicesContainer" class="table-responsive">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN MODALS -->
+
+  <!-- Add/Edit Service Modal -->
+  <div id="serviceEditModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeServiceModal()">&times;</button>
+      <h3 class="font-serif" id="serviceModalTitle" style="font-size: 1.5rem; margin-bottom: 1.5rem; color: #fff;">Add New Service</h3>
+      <form onsubmit="handleServiceFormSubmit(event)">
+        <input type="hidden" id="serviceFormId">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="serviceFormName">Service Name <span class="text-gold">*</span></label>
+          <input type="text" id="serviceFormName" class="form-control" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="serviceFormCategory">Category <span class="text-gold">*</span></label>
+          <select id="serviceFormCategory" class="form-control" required>
+            <option value="Grooming">Men’s Grooming</option>
+            <option value="Hair Styling &amp; Cut">Hair Styling &amp; Cut</option>
+            <option value="Hair Treatment">Hair Spa &amp; Keratin</option>
+            <option value="Hair Coloring">Hair Coloring</option>
+            <option value="Skincare &amp; Facial">Facials &amp; De-Tan</option>
+            <option value="Spa &amp; Massage">Spa &amp; Champi Massage</option>
+            <option value="Nails &amp; Pedicure">Pedicure &amp; Manicure</option>
+            <option value="Waxing &amp; Threading">Waxing &amp; Threading</option>
+            <option value="Bridal &amp; Glamour">Bridal &amp; Saree Draping</option>
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div class="form-group">
+            <label class="form-label" for="serviceFormPrice">Price (₹) <span class="text-gold">*</span></label>
+            <input type="number" id="serviceFormPrice" class="form-control" step="1" min="1" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="serviceFormDuration">Duration (minutes) <span class="text-gold">*</span></label>
+            <input type="number" id="serviceFormDuration" class="form-control" step="5" min="10" required>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="serviceFormImage">Image URL</label>
+          <input type="url" id="serviceFormImage" class="form-control" placeholder="https://images.unsplash.com/...">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="serviceFormDescription">Description <span class="text-gold">*</span></label>
+          <textarea id="serviceFormDescription" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="serviceFormIsActive" checked style="width: 18px; height: 18px; accent-color: var(--gold-primary);">
+          <label class="form-label" for="serviceFormIsActive" style="margin: 0; cursor: pointer;">Active (Visible on Customer Services Menu)</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+          <i class="fa-solid fa-floppy-disk"></i> Save Service
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reschedule Booking Modal -->
+  <div id="rescheduleBookingModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeRescheduleModal()">&times;</button>
+      <h3 class="font-serif" style="font-size: 1.5rem; margin-bottom: 1.2rem; color: #fff;">Reschedule Appointment</h3>
+      <p id="rescheduleModalDesc" style="font-size: 0.88rem; margin-bottom: 1.5rem;"></p>
+      
+      <form onsubmit="handleRescheduleSubmit(event)">
+        <input type="hidden" id="rescheduleBookingDbId">
+        <div class="form-group" style="margin-bottom: 1.2rem;">
+          <label class="form-label" for="rescheduleDateInput">New Appointment Date <span class="text-gold">*</span></label>
+          <input type="date" id="rescheduleDateInput" class="form-control" required onchange="fetchRescheduleSlots()">
+        </div>
+        <div class="form-group" style="margin-bottom: 1.8rem;">
+          <label class="form-label" for="rescheduleTimeSelect">New Time Slot <span class="text-gold">*</span></label>
+          <select id="rescheduleTimeSelect" class="form-control" required>
+            <option value="">-- Choose Slot --</option>
+            <option value="09:00 AM">09:00 AM</option>
+            <option value="10:00 AM">10:00 AM</option>
+            <option value="11:00 AM">11:00 AM</option>
+            <option value="12:00 PM">12:00 PM</option>
+            <option value="01:00 PM">01:00 PM</option>
+            <option value="02:00 PM">02:00 PM</option>
+            <option value="03:00 PM">03:00 PM</option>
+            <option value="04:00 PM">04:00 PM</option>
+            <option value="05:00 PM">05:00 PM</option>
+            <option value="06:00 PM">06:00 PM</option>
+            <option value="07:00 PM">07:00 PM</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+          <i class="fa-solid fa-calendar-check"></i> Confirm Reschedule
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Customer History Modal -->
+  <div id="customerHistoryModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 750px;">
+      <button class="modal-close" onclick="closeCustomerHistoryModal()">&times;</button>
+      <h3 class="font-serif" id="customerHistoryName" style="font-size: 1.5rem; margin-bottom: 0.3rem; color: #fff;">Customer History</h3>
+      <p id="customerHistoryMeta" style="font-size: 0.85rem; color: var(--gold-light); margin-bottom: 1.5rem;"></p>
+      
+      <div id="customerHistoryTableContainer" class="table-responsive">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
+
